@@ -49,6 +49,7 @@ static int	power_shield_index;
 #define HEALTH_IGNORE_MAX	1
 #define HEALTH_TIMED		2
 
+
 void Use_Quad (edict_t *ent, gitem_t *item);
 static int	quad_drop_timeout_hack;
 
@@ -194,26 +195,59 @@ void Drop_General (edict_t *ent, gitem_t *item)
 
 //======================================================================
 
-qboolean Pickup_Adrenaline (edict_t *ent, edict_t *other)
+qboolean Pickup_Scout (edict_t *ent, edict_t *other, edict_t *self)
 {
+	
+	
+	
 	if (!deathmatch->value)
-		other->max_health += 1;
-
+		other->health =50;
+		other->speed = 2.0;
+		other->accel = 2;
+		//other->decel = 2;
+		other->viewheight = 30;
+		//other-> *gravity = 200;
+		//other->AMMO_SHELLS = 20;
+		//self->SP_turret_breach;
+		
+	/*
 	if (other->health < other->max_health)
-		other->health = other->max_health;
+		other->health = other->max_health;*/
 
 	if (!(ent->spawnflags & DROPPED_ITEM) && (deathmatch->value))
 		SetRespawn (ent, ent->item->quantity);
 
 	return true;
+	
 }
-
-qboolean Pickup_AncientHead (edict_t *ent, edict_t *other)
+//david villa start
+qboolean Pickup_Heavy(edict_t *ent, edict_t *other)
 {
-	other->max_health += 2;
+	if (!deathmatch->value)
+		other->health = 150;
+
+	/*
+	if (other->health < other->max_health)
+	other->health = other->max_health;*/
 
 	if (!(ent->spawnflags & DROPPED_ITEM) && (deathmatch->value))
-		SetRespawn (ent, ent->item->quantity);
+		SetRespawn(ent, ent->item->quantity);
+
+	return true;
+}
+
+//david villa end
+qboolean Pickup_AncientHead (edict_t *ent, edict_t *other)
+{
+	if (!deathmatch->value)
+		other->health = 150;
+
+	/*
+	if (other->health < other->max_health)
+	other->health = other->max_health;*/
+
+	if (!(ent->spawnflags & DROPPED_ITEM) && (deathmatch->value))
+		SetRespawn(ent, ent->item->quantity);
 
 	return true;
 }
@@ -1092,7 +1126,7 @@ void SpawnItem (edict_t *ent, gitem_t *item)
 		}
 		if ( (int)dmflags->value & DF_NO_HEALTH )
 		{
-			if (item->pickup == Pickup_Health || item->pickup == Pickup_Adrenaline || item->pickup == Pickup_AncientHead)
+			if (item->pickup == Pickup_Health || item->pickup == Pickup_Scout || item->pickup == Pickup_AncientHead || item->pickup == Pickup_Heavy)//david villa add item pickup heavy
 			{
 				G_FreeEdict (ent);
 				return;
@@ -1800,21 +1834,21 @@ Special item that gives +2 to maximum health
 		0,
 /* precache */ ""
 	},
-
+	//david villa start
 /*QUAKED item_adrenaline (.3 .3 1) (-16 -16 -16) (16 16 16)
 gives +1 to maximum health
 */
 	{
-		"item_adrenaline",
-		Pickup_Adrenaline,
+		"item_scout",
+		Pickup_Scout,
 		NULL,
 		NULL,
 		NULL,
 		"items/pkup.wav",
 		"models/items/adrenal/tris.md2", EF_ROTATE,
 		NULL,
-/* icon */		"p_adrenaline",
-/* pickup */	"Adrenaline",
+/* icon */		"p_scout",
+/* pickup */	"scout",
 /* width */		2,
 		60,
 		NULL,
@@ -1824,7 +1858,36 @@ gives +1 to maximum health
 		0,
 /* precache */ ""
 	},
+	
+	
+	/*QUAKED item_heavy (.3 .3 1) (-16 -16 -16) (16 16 16)
+	gives +1 to maximum health
+	*/
+	{
+		"item_heavy",
+		Pickup_Heavy,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		"models/items/adrenal/tris.md2", EF_ROTATE,
+		NULL,
+		/* icon */		"p_heavy",
+		/* pickup */	"heavy",
+		/* width */		2,
+		60,
+		NULL,
+		0,
+		0,
+		NULL,
+		0,
+		/* precache */ ""
+	},
+	//david villa end
 
+	
+	
+	
 /*QUAKED item_bandolier (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{

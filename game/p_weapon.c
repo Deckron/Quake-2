@@ -552,8 +552,9 @@ void weapon_grenade_fire (edict_t *ent, qboolean held)
 	float	timer;
 	int		speed;
 	float	radius;
+	
 
-	radius = damage+40;
+	radius = damage+40;//david villa mod, was +40
 	if (is_quad)
 		damage *= 4;
 
@@ -563,7 +564,7 @@ void weapon_grenade_fire (edict_t *ent, qboolean held)
 
 	timer = ent->client->grenade_time - level.time;
 	speed = GRENADE_MINSPEED + (GRENADE_TIMER - timer) * ((GRENADE_MAXSPEED - GRENADE_MINSPEED) / GRENADE_TIMER);
-	fire_grenade2 (ent, start, forward, damage, speed, timer, radius, held);
+	fire_rocket (ent, start, forward, damage, 10, timer, radius, held);//david villa mod was fire_grenade2, number was speed
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		ent->client->pers.inventory[ent->client->ammo_index]--;
@@ -780,7 +781,7 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 
 	VectorSet(offset, 8, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-	fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
+	fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);//david villa mod change was 650
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -829,7 +830,7 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	VectorScale (forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;
 
-	fire_blaster (ent, start, forward, damage, 1000, effect, hyper);
+	fire_rail(ent, start, forward, damage, 1000, effect, hyper);//david villa mod, was fire blaster
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -1148,7 +1149,7 @@ void Chaingun_Fire (edict_t *ent)
 		VectorSet(offset, 0, r, u + ent->viewheight-8);
 		P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
 
-		fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_CHAINGUN);
+		fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_CHAINGUN);//david villa mod change, was fire_bullet
 	}
 
 	// send muzzle flash
@@ -1187,7 +1188,7 @@ void weapon_shotgun_fire (edict_t *ent)
 	vec3_t		forward, right;
 	vec3_t		offset;
 	int			damage = 4;
-	int			kick = 8;
+	int			kick = 8;//david villa mod change was 8
 
 	if (ent->client->ps.gunframe == 9)
 	{
@@ -1424,7 +1425,7 @@ void weapon_bfg_fire (edict_t *ent)
 
 void Weapon_BFG (edict_t *ent)
 {
-	static int	pause_frames[]	= {39, 45, 50, 55, 0};
+	static int	pause_frames[]	= {100, 200, 300, 400, 0};//david villa mod {39, 45, 50, 55, 0}
 	static int	fire_frames[]	= {9, 17, 0};
 
 	Weapon_Generic (ent, 8, 32, 55, 58, pause_frames, fire_frames, weapon_bfg_fire);

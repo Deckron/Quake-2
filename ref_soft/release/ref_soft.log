@@ -1,0 +1,62 @@
+﻿Build started 11/16/2018 2:48:48 PM.
+     1>Project "C:\Users\DAVE\Desktop\GAME MOD\quake2-full\ref_soft\ref_soft.vcxproj" on node 4 (Rebuild target(s)).
+     1>CustomBuild:
+         Performing Custom Build Tools
+          Assembling: C:\Users\DAVE\Desktop\GAME
+     1>MASM : fatal error A1000: cannot open file : C:\Users\DAVE\Desktop\GAME
+         Microsoft (R) Macro Assembler Version 12.00.21005.1
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+         Performing Custom Build Tools
+         Microsoft (R) Macro Assembler Version 12.00.21005.1
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+          Assembling: C:\Users\DAVE\Desktop\GAME
+     1>MASM : fatal error A1000: cannot open file : C:\Users\DAVE\Desktop\GAME
+         Performing Custom Build Tools
+         Microsoft (R) Macro Assembler Version 12.00.21005.1
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+          Assembling: C:\Users\DAVE\Desktop\GAME
+     1>MASM : fatal error A1000: cannot open file : C:\Users\DAVE\Desktop\GAME
+         Performing Custom Build Tools
+         Microsoft (R) Macro Assembler Version 12.00.21005.1
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+          Assembling: C:\Users\DAVE\Desktop\GAME
+     1>MASM : fatal error A1000: cannot open file : C:\Users\DAVE\Desktop\GAME
+         Performing Custom Build Tools
+         Microsoft (R) Macro Assembler Version 12.00.21005.1
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+          Assembling: C:\Users\DAVE\Desktop\GAME
+     1>MASM : fatal error A1000: cannot open file : C:\Users\DAVE\Desktop\GAME
+         Performing Custom Build Tools
+          Assembling: C:\Users\DAVE\Desktop\GAME
+     1>MASM : fatal error A1000: cannot open file : C:\Users\DAVE\Desktop\GAME
+         Microsoft (R) Macro Assembler Version 12.00.21005.1
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+         Performing Custom Build Tools
+          Assembling: C:\Users\DAVE\Desktop\GAME
+     1>MASM : fatal error A1000: cannot open file : C:\Users\DAVE\Desktop\GAME
+         Microsoft (R) Macro Assembler Version 12.00.21005.1
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+         Performing Custom Build Tools
+         Microsoft (R) Macro Assembler Version 12.00.21005.1
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+          Assembling: C:\Users\DAVE\Desktop\GAME
+     1>MASM : fatal error A1000: cannot open file : C:\Users\DAVE\Desktop\GAME
+         Performing Custom Build Tools
+          Assembling: C:\Users\DAVE\Desktop\GAME
+     1>MASM : fatal error A1000: cannot open file : C:\Users\DAVE\Desktop\GAME
+         Microsoft (R) Macro Assembler Version 12.00.21005.1
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+     1>Done Building Project "C:\Users\DAVE\Desktop\GAME MOD\quake2-full\ref_soft\ref_soft.vcxproj" (Rebuild target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:06.74
