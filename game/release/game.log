@@ -1,4 +1,4 @@
-﻿Build started 11/27/2018 3:41:44 PM.
+﻿Build started 12/5/2018 11:00:01 AM.
      1>Project "C:\Users\DAVE\Desktop\GAME MOD\quake2-full\game\game.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(357,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
      1>ClCompile:
@@ -7,17 +7,13 @@
      1>g_items.c(43): warning C4211: nonstandard extension used : redefined extern to static
      1>g_items.c(44): warning C4211: nonstandard extension used : redefined extern to static
      1>g_items.c(45): warning C4211: nonstandard extension used : redefined extern to static
-     1>g_items.c(210): warning C4013: 'GiveItem' undefined; assuming extern returning int
-     1>g_items.c(210): warning C4047: '==' : 'gitem_t *' differs in levels of indirection from 'int'
-     1>g_items.c(210): warning C4553: '==' : operator has no effect; did you intend '='?
-     1>g_items.c(198): warning C4100: 'self' : unreferenced formal parameter
-     1>g_items.c(740): warning C4100: 'item' : unreferenced formal parameter
-     1>g_items.c(796): warning C4100: 'surf' : unreferenced formal parameter
-     1>g_items.c(796): warning C4100: 'plane' : unreferenced formal parameter
-     1>g_items.c(927): warning C4100: 'activator' : unreferenced formal parameter
-     1>g_items.c(927): warning C4100: 'other' : unreferenced formal parameter
-     1>g_items.c(1130): warning C4113: 'qboolean (__cdecl *)(edict_t *,edict_t *,edict_t *)' differs in parameter lists from 'qboolean (__cdecl *)(edict_s *,edict_s *)'
-     1>g_items.c(2180): warning C4113: 'qboolean (__cdecl *)(edict_t *,edict_t *,edict_t *)' differs in parameter lists from 'qboolean (__cdecl *)(edict_s *,edict_s *)'
+     1>g_items.c(743): warning C4100: 'item' : unreferenced formal parameter
+     1>g_items.c(799): warning C4100: 'surf' : unreferenced formal parameter
+     1>g_items.c(799): warning C4100: 'plane' : unreferenced formal parameter
+     1>g_items.c(930): warning C4100: 'activator' : unreferenced formal parameter
+     1>g_items.c(930): warning C4100: 'other' : unreferenced formal parameter
+     1>g_items.c(1133): warning C4113: 'qboolean (__cdecl *)(edict_t *,edict_t *,edict_t *)' differs in parameter lists from 'qboolean (__cdecl *)(edict_s *,edict_s *)'
+     1>g_items.c(2183): warning C4113: 'qboolean (__cdecl *)(edict_t *,edict_t *,edict_t *)' differs in parameter lists from 'qboolean (__cdecl *)(edict_s *,edict_s *)'
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1186,5): warning MSB8012: TargetPath(D:\SteamLibrary\steamapps\common\Quake 2\baseq2\game.dll) does not match the Linker's OutputFile property value (C:\Users\DAVE\Desktop\GAME MOD\quake2-full\release\gamex86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1188,5): warning MSB8012: TargetName(game) does not match the Linker's OutputFile property value (gamex86). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
        Link:
@@ -70,10 +66,9 @@
          .\release\p_weapon.obj
          .\release\q_shared.obj
             Creating library .\..\release\gamex86.lib and object .\..\release\gamex86.exp
-     1>g_items.obj : error LNK2019: unresolved external symbol _GiveItem referenced in function _Pickup_Scout
-     1>..\release\gamex86.dll : fatal error LNK1120: 1 unresolved externals
-     1>Done Building Project "C:\Users\DAVE\Desktop\GAME MOD\quake2-full\game\game.vcxproj" (Build target(s)) -- FAILED.
+         game.vcxproj -> D:\SteamLibrary\steamapps\common\Quake 2\baseq2\game.dll
+     1>Done Building Project "C:\Users\DAVE\Desktop\GAME MOD\quake2-full\game\game.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:00.83
+Time Elapsed 00:00:01.06

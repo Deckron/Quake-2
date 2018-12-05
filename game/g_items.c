@@ -195,20 +195,16 @@ void Drop_General (edict_t *ent, gitem_t *item)
 
 //======================================================================
 
-qboolean Pickup_Scout (edict_t *ent, edict_t *other, edict_t *self)
+qboolean Pickup_scout (edict_t *ent, edict_t *other, edict_t *self)
 {
 	
 	
 	
 	if (!deathmatch->value)
 		other->health =50;
-		other->speed = 2.0;
-		other->accel = 2;
-		//other->decel = 2;
+		self->ClassSpeed=13;
 		other->viewheight = 30;
-		//other-> *gravity = 200;
-		//other->AMMO_SHELLS = 20;
-		//self->SP_turret_breach;
+		ent->viewheight = 30;
 		
 	/*
 	if (other->health < other->max_health)
@@ -221,10 +217,11 @@ qboolean Pickup_Scout (edict_t *ent, edict_t *other, edict_t *self)
 	
 }
 //david villa start
-qboolean Pickup_Heavy(edict_t *ent, edict_t *other)
+qboolean Pickup_Heavy(edict_t *ent, edict_t *other, edict_t *self)
 {
 	if (!deathmatch->value)
 		other->health = 150;
+		self->ClassSpeed = 3;
 
 	/*
 	if (other->health < other->max_health)
@@ -1126,7 +1123,7 @@ void SpawnItem (edict_t *ent, gitem_t *item)
 		}
 		if ( (int)dmflags->value & DF_NO_HEALTH )
 		{
-			if (item->pickup == Pickup_Health || item->pickup == Pickup_Scout || item->pickup == Pickup_AncientHead || item->pickup == Pickup_Heavy)//david villa add item pickup heavy
+			if (item->pickup == Pickup_Health || item->pickup == Pickup_scout || item->pickup == Pickup_AncientHead || item->pickup == Pickup_Heavy)//david villa add item pickup heavy
 			{
 				G_FreeEdict (ent);
 				return;
@@ -1840,7 +1837,7 @@ gives +1 to maximum health
 */
 	{
 		"item_scout",
-		Pickup_Scout,
+		Pickup_scout,
 		NULL,
 		NULL,
 		NULL,

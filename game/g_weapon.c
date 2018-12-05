@@ -341,6 +341,21 @@ void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *
 
 	G_FreeEdict (self);
 }
+//dj example start
+/*
+void blaster_think(edict_t *self)
+{
+	vec3_t dir;
+	self->nextthink = level.time + 0.1;
+	vectorScale(self->velocity, -1, dir);
+	gi.WriteByte(svc_temp_entity);
+	gi.WriteByte(TE_BLOOD);
+	gi.WritePosition(self->s.origin);
+	gi.WriteDir(dir);
+	gi.multicast(self->s.origin, MULTICAST_PVS);
+}
+*/
+//dj example end 12/3
 
 void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, int effect, qboolean hyper)
 {
@@ -370,8 +385,9 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 	bolt->s.sound = gi.soundindex ("misc/lasfly.wav");
 	bolt->owner = self;
 	bolt->touch = blaster_touch;
-	bolt->nextthink = level.time + 2;
+	bolt->nextthink = level.time + 0.2;
 	bolt->think = G_FreeEdict;
+	//bolt->think = blaster_think;
 	bolt->dmg = damage;
 	bolt->classname = "bolt";
 	if (hyper)

@@ -24,6 +24,8 @@ void ClientUserinfoChanged (edict_t *ent, char *userinfo);
 
 void SP_misc_teleporter_dest (edict_t *ent);
 
+//void scout(edict_t *ent, edict_t *other, edict_t *self);
+
 //
 // Gross, ugly, disgustuing hack section
 //
@@ -502,7 +504,7 @@ void player_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 {
 	int		n;
 
-	VectorClear (self->avelocity);
+	//VectorClear (self->avelocity);david villa mod
 
 	self->takedamage = DAMAGE_YES;
 	self->movetype = MOVETYPE_TOSS;
@@ -1491,7 +1493,24 @@ qboolean ClientConnect (edict_t *ent, char *userinfo)
 
 	ent->client->pers.connected = true;
 	return true;
+
 }
+//david villa cloaking mod
+
+/*
+	{
+	VectorCopy(pm.viewangles, client->v_angle);
+	VectorCopy(pm.viewangles, client->ps.viewangles);
+	}
+
+
+	if (ucmd->forwardmove != 0 || ucmd->sidemove != 0 && ent->svflags & SVF_NOCLIENT)
+	{
+		ent->svflags &= ~SVF_NOCLIENT;
+	}
+	gi.linkentity(ent); 
+	*/
+//david villa mod end
 
 /*
 ===========
@@ -1573,6 +1592,70 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 	edict_t	*other;
 	int		i, j;
 	pmove_t	pm;
+	//david villa mod start
+	float ClassSpeedModifer, t;
+	vec3_t velo;
+	vec3_t  end, forward, right, up, add;
+	ClassSpeedModifer = ent->ClassSpeed * 0.2;
+	//Figure out speed
+	VectorClear(velo);
+	AngleVectors(ent->client->v_angle, forward, right, up);
+	VectorScale(forward, ucmd->forwardmove*ClassSpeedModifer, end);
+	VectorAdd(end, velo, velo);
+	AngleVectors(ent->client->v_angle, forward, right, up);
+	VectorScale(right, ucmd->sidemove*ClassSpeedModifer, end);
+	VectorAdd(end, velo, velo);
+	//if not in water set it up so they aren't moving up or down when they press forward
+	if (ent->waterlevel == 0)
+		velo[2] = 0;
+	if (ent->waterlevel == 1)//feet are in the water
+	{
+		//Water slows you down or at least I think it should
+		velo[0] *= 0.875;
+		velo[1] *= 0.875;
+		velo[2] *= 0.875;
+		ClassSpeedModifer *= 0.875;
+	}
+	else if (ent->waterlevel == 2)//waist is in the water
+	{
+		//Water slows you down or at least I think it should
+		velo[0] *= 0.75;
+		velo[1] *= 0.75;
+		velo[2] *= 0.75;
+		ClassSpeedModifer *= 0.75;
+	}
+	else if (ent->waterlevel == 3)//whole body is in the water
+	{
+		//Water slows you down or at least I think it should
+		velo[0] *= 0.6;
+		velo[1] *= 0.6;
+		velo[2] *= 0.6;
+		ClassSpeedModifer *= 0.6;
+	}
+	if (ent->groundentity)//add 
+		VectorAdd(velo, ent->velocity, ent->velocity);
+	else if (ent->waterlevel)
+		VectorAdd(velo, ent->velocity, ent->velocity);
+	else
+	{
+		//Allow for a little movement but not as much
+		velo[0] *= 0.25;
+		velo[1] *= 0.25;
+		velo[2] *= 0.25;
+		VectorAdd(velo, ent->velocity, ent->velocity);
+	}
+	//Make sure not going to fast. THis slows down grapple too
+	t = VectorLength(ent->velocity);
+	if (t > 300 * ClassSpeedModifer || t < -300 * ClassSpeedModifer)
+	{
+		VectorScale(ent->velocity, 300 * ClassSpeedModifer / t, ent->velocity);
+	}
+
+	//Set these to 0 so pmove thinks we aren't pressing forward or sideways since we are handling all the player forward and sideways speeds
+	ucmd->forwardmove = 0;
+	ucmd->sidemove = 0;
+	//david villa mod end
+
 
 	level.current_entity = ent;
 	client = ent->client;
@@ -1639,7 +1722,7 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		for (i=0 ; i<3 ; i++)
 		{
 			ent->s.origin[i] = pm.s.origin[i]*0.125;
-			ent->velocity[i] = pm.s.velocity[i]*0.125;
+			ent->velocity[i] = pm.s.velocity[i]*0.125; 
 		}
 
 		VectorCopy (pm.mins, ent->mins);
@@ -1654,8 +1737,8 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 			gi.sound(ent, CHAN_VOICE, gi.soundindex("*jump1.wav"), 1, ATTN_NORM, 0);
 			PlayerNoise(ent, ent->s.origin, PNOISE_SELF);
 		}
-
-		ent->viewheight = pm.viewheight;
+		//david villa mod
+		//ent->viewheight = pm.viewheight;
 		ent->waterlevel = pm.waterlevel;
 		ent->watertype = pm.watertype;
 		ent->groundentity = pm.groundentity;
@@ -1803,3 +1886,23 @@ void ClientBeginServerFrame (edict_t *ent)
 
 	client->latched_buttons = 0;
 }
+//david villa mod start
+void scout(edict_t *self, edict_t *ent)
+{
+	if (self == 0 || NULL)
+	{
+		gi.cprintf(self, PRINT_HIGH, "self is NULL\n");
+	}
+	if (self != 0 || NULL)
+	{
+		self->max_health = 50;
+		self->speed = 200;
+		self->viewheight = 12;
+		//Weapon_Generic(self, 4, 5, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
+		//self->velocity = 200;
+		//self->gravity = 20;
+	}
+}
+
+
+//david villa mod end
