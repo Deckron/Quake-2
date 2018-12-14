@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "g_local.h"
 #include "m_player.h"
 
+
 void ClientUserinfoChanged (edict_t *ent, char *userinfo);
 
 void SP_misc_teleporter_dest (edict_t *ent);
@@ -627,6 +628,7 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.max_grenades	= 50;
 	client->pers.max_cells		= 200;
 	client->pers.max_slugs		= 50;
+	
 
 	client->pers.connected = true;
 }
@@ -1430,9 +1432,11 @@ Changing levels will NOT cause this to be called again, but
 loadgames will.
 ============
 */
-qboolean ClientConnect (edict_t *ent, char *userinfo)
+qboolean ClientConnect(edict_t *ent, char *userinfo, usercmd_t *ucmd)
 {
 	char	*value;
+	gclient_t	*client;//mod addition
+	pmove_t	pm;//mod addition
 
 	// check to see if they are on the banned IP list
 	value = Info_ValueForKey (userinfo, "ip");
@@ -1493,24 +1497,10 @@ qboolean ClientConnect (edict_t *ent, char *userinfo)
 
 	ent->client->pers.connected = true;
 	return true;
+	
 
 }
-//david villa cloaking mod
 
-/*
-	{
-	VectorCopy(pm.viewangles, client->v_angle);
-	VectorCopy(pm.viewangles, client->ps.viewangles);
-	}
-
-
-	if (ucmd->forwardmove != 0 || ucmd->sidemove != 0 && ent->svflags & SVF_NOCLIENT)
-	{
-		ent->svflags &= ~SVF_NOCLIENT;
-	}
-	gi.linkentity(ent); 
-	*/
-//david villa mod end
 
 /*
 ===========
@@ -1654,9 +1644,6 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 	//Set these to 0 so pmove thinks we aren't pressing forward or sideways since we are handling all the player forward and sideways speeds
 	ucmd->forwardmove = 0;
 	ucmd->sidemove = 0;
-	//david villa mod end
-
-
 	level.current_entity = ent;
 	client = ent->client;
 
@@ -1887,6 +1874,7 @@ void ClientBeginServerFrame (edict_t *ent)
 	client->latched_buttons = 0;
 }
 //david villa mod start
+/*
 void scout(edict_t *self, edict_t *ent)
 {
 	if (self == 0 || NULL)
@@ -1903,6 +1891,7 @@ void scout(edict_t *self, edict_t *ent)
 		//self->gravity = 20;
 	}
 }
+*/
 
 
 //david villa mod end

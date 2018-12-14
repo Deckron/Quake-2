@@ -1,19 +1,15 @@
-﻿Build started 12/5/2018 11:00:01 AM.
+﻿Build started 12/14/2018 6:44:34 PM.
      1>Project "C:\Users\DAVE\Desktop\GAME MOD\quake2-full\game\game.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(357,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Z7 /nologo /W4 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _WINDLL /GF /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\release\\" /Fd".\release\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt g_items.c
-         g_items.c
-     1>g_items.c(43): warning C4211: nonstandard extension used : redefined extern to static
-     1>g_items.c(44): warning C4211: nonstandard extension used : redefined extern to static
-     1>g_items.c(45): warning C4211: nonstandard extension used : redefined extern to static
-     1>g_items.c(743): warning C4100: 'item' : unreferenced formal parameter
-     1>g_items.c(799): warning C4100: 'surf' : unreferenced formal parameter
-     1>g_items.c(799): warning C4100: 'plane' : unreferenced formal parameter
-     1>g_items.c(930): warning C4100: 'activator' : unreferenced formal parameter
-     1>g_items.c(930): warning C4100: 'other' : unreferenced formal parameter
-     1>g_items.c(1133): warning C4113: 'qboolean (__cdecl *)(edict_t *,edict_t *,edict_t *)' differs in parameter lists from 'qboolean (__cdecl *)(edict_s *,edict_s *)'
-     1>g_items.c(2183): warning C4113: 'qboolean (__cdecl *)(edict_t *,edict_t *,edict_t *)' differs in parameter lists from 'qboolean (__cdecl *)(edict_s *,edict_s *)'
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Z7 /nologo /W4 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _WINDLL /GF /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\release\\" /Fd".\release\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt p_weapon.c
+         p_weapon.c
+     1>p_weapon.c(785): warning C4020: 'fire_rocket' : too many actual parameters
+     1>p_weapon.c(834): warning C4020: 'fire_rail' : too many actual parameters
+     1>p_weapon.c(1273): warning C4020: 'fire_grenade2' : too many actual parameters
+     1>p_weapon.c(1276): warning C4020: 'fire_grenade2' : too many actual parameters
+     1>p_weapon.c(1252): warning C4101: 'held' : unreferenced local variable
+     1>p_weapon.c(1251): warning C4189: 'speed' : local variable is initialized but not referenced
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1186,5): warning MSB8012: TargetPath(D:\SteamLibrary\steamapps\common\Quake 2\baseq2\game.dll) does not match the Linker's OutputFile property value (C:\Users\DAVE\Desktop\GAME MOD\quake2-full\release\gamex86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1188,5): warning MSB8012: TargetName(game) does not match the Linker's OutputFile property value (gamex86). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
        Link:
@@ -71,4 +67,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.06
+Time Elapsed 00:00:00.87

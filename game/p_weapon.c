@@ -564,7 +564,7 @@ void weapon_grenade_fire (edict_t *ent, qboolean held)
 
 	timer = ent->client->grenade_time - level.time;
 	speed = GRENADE_MINSPEED + (GRENADE_TIMER - timer) * ((GRENADE_MAXSPEED - GRENADE_MINSPEED) / GRENADE_TIMER);
-	fire_rocket (ent, start, forward, damage, 10, timer, radius, held);//david villa mod was fire_grenade2, number was speed
+	fire_grenade2 (ent, start, forward, damage, speed, timer, radius, held);//david villa mod was fire_grenade2, number was speed
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		ent->client->pers.inventory[ent->client->ammo_index]--;
@@ -762,10 +762,11 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 	vec3_t	offset, start;
 	vec3_t	forward, right;
 	int		damage;
+	int kick = 15;
 	float	damage_radius;
 	int		radius_damage;
 
-	damage = 100 + (int)(random() * 20.0);
+	damage = 500 + (int)(random() * 20.0);//david villa, changed 500 from 100
 	radius_damage = 120;
 	damage_radius = 120;
 	if (is_quad)
@@ -781,7 +782,7 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 
 	VectorSet(offset, 8, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-	fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);//david villa mod change was 650
+	fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage, kick);//david villa mod change was 650
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -802,7 +803,7 @@ void Weapon_RocketLauncher (edict_t *ent)
 	static int	pause_frames[]	= {25, 33, 42, 50, 0};
 	static int	fire_frames[]	= {5, 0};
 
-	Weapon_Generic (ent, 4, 12, 50, 54, pause_frames, fire_frames, Weapon_RocketLauncher_Fire);
+	Weapon_Generic (ent, 4, 9, 50, 54, pause_frames, fire_frames, Weapon_RocketLauncher_Fire);
 }
 
 
@@ -862,7 +863,7 @@ void Weapon_Blaster (edict_t *ent)
 	static int	pause_frames[]	= {19, 32, 0};
 	static int	fire_frames[]	= {5, 0};
 
-	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);//change second number to fire faster
+	Weapon_Generic (ent, 4, 5, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);//change second number to fire fasterchanged from 8-5
 }
 
 
@@ -1042,7 +1043,7 @@ void Weapon_Machinegun (edict_t *ent)
 	static int	pause_frames[]	= {23, 45, 0};
 	static int	fire_frames[]	= {4, 5, 0};
 
-	Weapon_Generic (ent, 3, 5, 45, 49, pause_frames, fire_frames, Machinegun_Fire);
+	Weapon_Generic (ent, 3, 15, 45, 49, pause_frames, fire_frames, Machinegun_Fire);
 }
 
 void Chaingun_Fire (edict_t *ent)
@@ -1168,9 +1169,9 @@ void Chaingun_Fire (edict_t *ent)
 void Weapon_Chaingun (edict_t *ent)
 {
 	static int	pause_frames[]	= {38, 43, 51, 61, 0};
-	static int	fire_frames[]	= {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 0};
+	static int	fire_frames[]	= {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 0};//david villa added 22-32
 
-	Weapon_Generic (ent, 4, 31, 61, 64, pause_frames, fire_frames, Chaingun_Fire);
+	Weapon_Generic (ent, 4, 31, 61, 64, pause_frames, fire_frames, Chaingun_Fire);//david villa, first number was 4, second was 31 (4,31,61,64)
 }
 
 
@@ -1233,7 +1234,7 @@ void Weapon_Shotgun (edict_t *ent)
 	static int	pause_frames[]	= {22, 28, 34, 0};
 	static int	fire_frames[]	= {8, 9, 0};
 
-	Weapon_Generic (ent, 7, 18, 36, 39, pause_frames, fire_frames, weapon_shotgun_fire);
+	Weapon_Generic (ent, 7, 15, 36, 39, pause_frames, fire_frames, weapon_shotgun_fire);//changed second number from 18 to 15
 }
 
 
@@ -1245,6 +1246,10 @@ void weapon_supershotgun_fire (edict_t *ent)
 	vec3_t		v;
 	int			damage = 6;
 	int			kick = 12;
+	int			timer = 3;
+	float		radius = 10.0;
+	int			speed = 10;
+	int			held;
 
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
 
@@ -1264,10 +1269,12 @@ void weapon_supershotgun_fire (edict_t *ent)
 	v[YAW]   = ent->client->v_angle[YAW] - 5;
 	v[ROLL]  = ent->client->v_angle[ROLL];
 	AngleVectors (v, forward, NULL, NULL);
-	fire_shotgun (ent, start, forward, damage, kick, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, DEFAULT_SSHOTGUN_COUNT/2, MOD_SSHOTGUN);
+	//fire_grenade2(ent, start, forward, damage, speed, timer, radius, held);//david villa mod was fire_grenade2, number was speed
+	fire_grenade2(ent, start, forward, damage, kick,  timer, radius, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, DEFAULT_SSHOTGUN_COUNT / 2, MOD_SSHOTGUN);//david villa mod, added timer speed and radius, was fire_shotgun
 	v[YAW]   = ent->client->v_angle[YAW] + 5;
 	AngleVectors (v, forward, NULL, NULL);
-	fire_shotgun (ent, start, forward, damage, kick, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, DEFAULT_SSHOTGUN_COUNT/2, MOD_SSHOTGUN);
+	fire_grenade2(ent, start, forward, damage, kick,  timer, radius, DEFAULT_SHOTGUN_HSPREAD, DEFAULT_SHOTGUN_VSPREAD, DEFAULT_SSHOTGUN_COUNT / 2, MOD_SSHOTGUN);//david villa mod, was fire_shotgun added timer speed and radius
+	//fire_grenade2(ent, start, forward, damage, speed, timer, radius, held);//david villa mod was fire_grenade2, number was speed
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -1287,7 +1294,8 @@ void Weapon_SuperShotgun (edict_t *ent)
 	static int	pause_frames[]	= {29, 42, 57, 0};
 	static int	fire_frames[]	= {7, 0};
 
-	Weapon_Generic (ent, 6, 17, 57, 61, pause_frames, fire_frames, weapon_supershotgun_fire);
+	Weapon_Generic(ent, 6, 17, 57, 61, pause_frames, fire_frames, Weapon_RocketLauncher_Fire);
+	
 }
 
 

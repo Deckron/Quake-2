@@ -194,17 +194,20 @@ void Drop_General (edict_t *ent, gitem_t *item)
 
 
 //======================================================================
+//david villa start
 
-qboolean Pickup_scout (edict_t *ent, edict_t *other, edict_t *self)
+qboolean Pickup_Scout(edict_t *ent, edict_t *self)
 {
+	//gitem_t		*item;
 	
 	
 	
 	if (!deathmatch->value)
-		other->health =50;
+		self->health =50;
+		self->max_health = 50; 
 		self->ClassSpeed=13;
-		other->viewheight = 30;
-		ent->viewheight = 30;
+		self->viewheight = 8;
+	
 		
 	/*
 	if (other->health < other->max_health)
@@ -216,11 +219,31 @@ qboolean Pickup_scout (edict_t *ent, edict_t *other, edict_t *self)
 	return true;
 	
 }
-//david villa start
-qboolean Pickup_Heavy(edict_t *ent, edict_t *other, edict_t *self)
+qboolean Pickup_Spy(edict_t *ent, edict_t *self)
 {
 	if (!deathmatch->value)
-		other->health = 150;
+		self->health = 40;
+		self->max_health = 40;
+		self->ClassSpeed = 4;
+		self->viewheight = 28;
+		Cmd_Notarget_f(self);
+		/*
+		if (other->health < other->max_health)
+		other->health = other->max_health;*/
+
+
+	if (!(ent->spawnflags & DROPPED_ITEM) && (deathmatch->value))
+		SetRespawn(ent, ent->item->quantity);
+
+	return true;
+
+
+}
+qboolean Pickup_Heavy(edict_t *ent, edict_t *self)
+{
+	if (!deathmatch->value)
+		self->health = 500;
+		self->max_health = 500;
 		self->ClassSpeed = 3;
 
 	/*
@@ -231,6 +254,29 @@ qboolean Pickup_Heavy(edict_t *ent, edict_t *other, edict_t *self)
 		SetRespawn(ent, ent->item->quantity);
 
 	return true;
+}
+qboolean Pickup_Soldier(edict_t *ent, edict_t *self)
+{
+	//gitem_t		*item;
+
+
+
+	if (!deathmatch->value)
+		self->health = 1000;
+		self->max_health = 500;
+		self->ClassSpeed = 4;
+		self->viewheight = 11;
+
+
+	/*
+	if (other->health < other->max_health)
+	other->health = other->max_health;*/
+
+	if (!(ent->spawnflags & DROPPED_ITEM) && (deathmatch->value))
+		SetRespawn(ent, ent->item->quantity);
+
+	return true;
+
 }
 
 //david villa end
@@ -1123,7 +1169,7 @@ void SpawnItem (edict_t *ent, gitem_t *item)
 		}
 		if ( (int)dmflags->value & DF_NO_HEALTH )
 		{
-			if (item->pickup == Pickup_Health || item->pickup == Pickup_scout || item->pickup == Pickup_AncientHead || item->pickup == Pickup_Heavy)//david villa add item pickup heavy
+			if (item->pickup == Pickup_Health || item->pickup == Pickup_Scout || item->pickup == Pickup_AncientHead || item->pickup == Pickup_Heavy || item->pickup == Pickup_Spy|| item->pickup==Pickup_Soldier)//david villa add item pickup heavy, scout, spy
 			{
 				G_FreeEdict (ent);
 				return;
@@ -1837,7 +1883,7 @@ gives +1 to maximum health
 */
 	{
 		"item_scout",
-		Pickup_scout,
+		Pickup_Scout,
 		NULL,
 		NULL,
 		NULL,
@@ -1880,6 +1926,55 @@ gives +1 to maximum health
 		0,
 		/* precache */ ""
 	},
+	/*QUAKED item_spy (.3 .3 1) (-16 -16 -16) (16 16 16)
+	gives +1 to maximum health
+	*/
+	{
+		"item_spy",
+		Pickup_Spy,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		"models/items/adrenal/tris.md2", EF_ROTATE,
+		NULL,
+		/* icon */		"p_spy",
+		/* pickup */	"spy",
+		/* width */		2,
+		60,
+		NULL,
+		0,
+		0,
+		NULL,
+		0,
+		/* precache */ ""
+	},
+	
+	/*QUAKED item_soldier (.3 .3 1) (-16 -16 -16) (16 16 16)
+	gives +1 to maximum health
+	*/
+	
+	{
+		"item_soldier",
+		Pickup_Soldier,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		"models/items/adrenal/tris.md2", EF_ROTATE,
+		NULL,
+		/* icon */		"p_soldier",
+		/* pickup */	"soldier",
+		/* width */		2,
+		60,
+		NULL,
+		0,
+		0,
+		NULL,
+		0,
+		/* precache */ ""
+	},
+	
 	//david villa end
 
 	

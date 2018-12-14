@@ -878,6 +878,34 @@ qboolean CheckFlood(edict_t *ent)
 }
 
 /*
+ =================
+ Cmd_FireMode_f
+ use: new function for adjusting firing mode
+ =================
+ */
+/*
+void Cmd_FireMode_f(edict_t *ent)
+
+{
+	
+	int i;
+	i = ent->client->pers.fire_mode;
+	switch (i)
+		{
+			case 0:
+			ent->client->pers.fire_mode = 1;
+			gi.cprintf(ent, PRINT_HIGH, "Burst Fire Mode\n");
+				break;
+			case 1:
+			default:
+				ent->client->burstfire_count = 0;
+				ent->client->pers.fire_mode = 0;
+				gi.cprintf(ent, PRINT_HIGH, "Fully Automatic Mode\n");
+				break;
+		}
+	}
+*/
+/*
 ==================
 Cmd_Say_f
 ==================
@@ -991,17 +1019,6 @@ void ClientCommand (edict_t *ent)
 
 	if (Q_stricmp(cmd, "use") == 0)
 		Cmd_Use_f(ent);
-	//david villa start
-	else if (Q_stricmp(cmd, "spy") == 0)
-	{
-		ent->max_health = 40;
-		ent->health = 40;
-		ent->viewheight = 40;
-		gi.cprintf(ent, PRINT_HIGH, "You are nowvisible!\n");
-		Cmd_Use_f(ent);
-		
-	}
-	//david villa end
 	else if (Q_stricmp (cmd, "drop") == 0)
 		Cmd_Drop_f (ent);
 	else if (Q_stricmp (cmd, "give") == 0)
@@ -1042,20 +1059,10 @@ void ClientCommand (edict_t *ent)
 		Cmd_PutAway_f (ent);
 	else if (Q_stricmp (cmd, "wave") == 0)
 		Cmd_Wave_f (ent);
-	//cloaking command
-	else if (Q_stricmp(cmd, "cloak") == 0)
-	{
-		if (ent->svflags & SVF_NOCLIENT) 
-	{
-			gi.cprintf(ent, PRINT_HIGH, "You are nowvisible!\n");
-			ent->svflags -= SVF_NOCLIENT;        
-	}
-		else  
-	{
-			gi.cprintf(ent, PRINT_HIGH, "You are nowcloaked!\n");
-			ent->svflags |= SVF_NOCLIENT;        
-	}        
-}
+
+
+
+
 //ZOID
 	else if (Q_stricmp (cmd, "team") == 0)
 	{
