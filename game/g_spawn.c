@@ -649,17 +649,17 @@ char *single_statusbar =
 "yb	-24 "
 
 // health
-"xv	0 "//david villa change was 0
+"xv	100 "//david villa change was 0
 "hnum  "//david villa change, was nothing before
 "xv	50 "//david villa change was 50
-"pic  0"//was 0
+"pic  3"//was 0
 
 // ammo
-"if 2 "
-"	xv	100 "//david villa changed from 100
+"if 3 "
+"	xv	50 "//david villa changed from 100
 "	anum "
 "	xv	150 "//david villa change was 150
-"	pic 2 "
+"	pic 3 "//was 2
 "endif "
 
 // armor
@@ -667,7 +667,7 @@ char *single_statusbar =
 "	xv	200 "
 "	rnum "
 "	xv	250 "
-"	pic 4 "
+"	pic 3 "//was 4
 "endif "
 
 // selected item

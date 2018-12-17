@@ -35,6 +35,7 @@ void Weapon_Grenade (edict_t *ent);
 void Weapon_GrenadeLauncher (edict_t *ent);
 void Weapon_Railgun (edict_t *ent);
 void Weapon_BFG (edict_t *ent);
+void Weapon_Sword(edict_t *ent);//david villa sword mod addition
 
 gitem_armor_t jacketarmor_info	= { 25,  50, .30, .00, ARMOR_JACKET};
 gitem_armor_t combatarmor_info	= { 50, 100, .60, .30, ARMOR_COMBAT};
@@ -207,6 +208,8 @@ qboolean Pickup_Scout(edict_t *ent, edict_t *self)
 		self->max_health = 50; 
 		self->ClassSpeed=13;
 		self->viewheight = 8;
+		
+
 	
 		
 	/*
@@ -289,6 +292,29 @@ qboolean Pickup_Sniper(edict_t *ent, edict_t *self)
 	self->max_health = 45;
 	self->ClassSpeed = 2;
 	self->viewheight = 30;
+
+
+	/*
+	if (other->health < other->max_health)
+	other->health = other->max_health;*/
+
+	if (!(ent->spawnflags & DROPPED_ITEM) && (deathmatch->value))
+		SetRespawn(ent, ent->item->quantity);
+
+	return true;
+
+}
+qboolean Pickup_DemoMan(edict_t *ent, edict_t *self)
+{
+	//gitem_t		*item;
+
+
+
+	if (!deathmatch->value)
+		self->health = 75;
+	self->max_health = 75;
+	self->ClassSpeed = 6;
+	self->viewheight = 17;
 
 
 	/*
@@ -1192,7 +1218,7 @@ void SpawnItem (edict_t *ent, gitem_t *item)
 		}
 		if ( (int)dmflags->value & DF_NO_HEALTH )
 		{
-			if (item->pickup == Pickup_Health || item->pickup == Pickup_Scout || item->pickup == Pickup_AncientHead || item->pickup == Pickup_Heavy || item->pickup == Pickup_Spy|| item->pickup==Pickup_Soldier || item->pickup==Pickup_Sniper)//david villa add item pickup heavy, scout, spy, soldier
+			if (item->pickup == Pickup_Health || item->pickup == Pickup_Scout || item->pickup == Pickup_AncientHead || item->pickup == Pickup_Heavy || item->pickup == Pickup_Spy|| item->pickup==Pickup_Soldier || item->pickup==Pickup_Sniper || item->pickup==Pickup_DemoMan)//david villa add item pickup heavy, scout, spy, soldier
 			{
 				G_FreeEdict (ent);
 				return;
@@ -1913,7 +1939,7 @@ gives +1 to maximum health
 		"items/pkup.wav",
 		"models/items/adrenal/tris.md2", EF_ROTATE,
 		NULL,
-/* icon */		"p_scout",
+/* icon */		"I'm a force of nature!",
 /* pickup */	"scout",
 /* width */		2,
 		60,
@@ -1938,7 +1964,7 @@ gives +1 to maximum health
 		"items/pkup.wav",
 		"models/items/adrenal/tris.md2", EF_ROTATE,
 		NULL,
-		/* icon */		"p_heavy",
+		/* icon */		"Who touch Sasha?",
 		/* pickup */	"heavy",
 		/* width */		2,
 		60,
@@ -1961,7 +1987,7 @@ gives +1 to maximum health
 		"items/pkup.wav",
 		"models/items/adrenal/tris.md2", EF_ROTATE,
 		NULL,
-		/* icon */		"p_spy",
+		/* icon */		"Seduce me!!!",
 		/* pickup */	"spy",
 		/* width */		2,
 		60,
@@ -1986,7 +2012,7 @@ gives +1 to maximum health
 		"items/pkup.wav",
 		"models/items/adrenal/tris.md2", EF_ROTATE,
 		NULL,
-		/* icon */		"p_soldier",
+		/* icon */		"Then, he used his fight money to buy 2 of every animal on earth, and then he hearded them onto a boat, and then he beat the crap out of every single one!",
 		/* pickup */	"soldier",
 		/* width */		2,
 		60,
@@ -2010,8 +2036,32 @@ gives +1 to maximum health
 		"items/pkup.wav",
 		"models/items/adrenal/tris.md2", EF_ROTATE,
 		NULL,
-		/* icon */		"p_sniper",
+		/* icon */		"I'm not a crazed gunman, dad, I'm an assassin",
 		/* pickup */	"sniper",
+		/* width */		2,
+		60,
+		NULL,
+		0,
+		0,
+		NULL,
+		0,
+		/* precache */ ""
+	},
+	/*QUAKED item_demoman(.3 .3 1) (-16 -16 -16) (16 16 16)
+	gives +1 to maximum health
+	*/
+
+	{
+		"item_DemoMan",
+		Pickup_DemoMan,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		"models/items/adrenal/tris.md2", EF_ROTATE,
+		NULL,
+		/* icon */		"So proud, so cock-sure, prouncing about with your heads full of eyeballs!",
+		/* pickup */	"demo",
 		/* width */		2,
 		60,
 		NULL,

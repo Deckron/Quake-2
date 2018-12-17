@@ -930,3 +930,62 @@ void fire_bfg (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, f
 
 	gi.linkentity (bfg);
 }
+//david villa start
+/*
+==================
+Fire_Punch
+==================
+*/
+
+void fire_punch(edict_t *self, vec3_t start, vec3_t aim, int reach, int damage, int kick, int quiet, int mod)
+{
+	vec3_t		forward, right, up;
+	vec3_t		v;
+	vec3_t		point;
+	trace_t		tr;
+
+	//vectorangles3(aim, v);
+	AngleVectors(v, forward, right, up);
+	VectorNormalize(forward);
+	VectorMA(start, reach, forward, point);
+
+	//hit detection
+	tr = gi.trace(start, NULL, NULL, point, self, MASK_SHOT);
+	if (tr.fraction == 1.0)
+	{
+		//if (!quiet); //not needed, it's better to follow my later steps
+		//gi.sound (self, CHAN_WEAPON, gi.soundindex ("weapons/swish.wav"), 1, ATTN_NORM, 0)
+		return;
+	}
+
+	if (tr.ent->takedamage == DAMAGE_YES || tr.ent->takedamage == DAMAGE_AIM)
+	{
+		
+		VectorMA(self->velocity, 75, forward, self->velocity);
+		VectorMA(self->velocity, 75, up, self->velocity);
+
+
+		
+		T_Damage(tr.ent, self, self, vec3_origin, tr.ent->s.origin, vec3_origin, damage, kick / 2, DAMAGE_ENERGY, mod);
+		gi.sound(self, CHAN_WEAPON, gi.soundindex("weapons/phitw1.wav"), 1, ATTN_IDLE, 0);
+
+
+		if (!quiet)
+			gi.sound(self, CHAN_WEAPON, gi.soundindex("weapons/meatht.wav"), 1, ATTN_NORM, 0);
+
+	}
+	else
+	{
+		if (!quiet)
+			gi.sound(self, CHAN_WEAPON, gi.soundindex("weapons/tink1.wav"), 1, ATTN_NORM, 0);
+
+		VectorScale(tr.plane.normal, 256, point);
+		gi.WriteByte(svc_temp_entity);
+		gi.WriteByte(TE_SPARKS);
+		gi.WritePosition(tr.endpos);
+		gi.WriteDir(point);
+		gi.multicast(tr.endpos, MULTICAST_PVS);
+		gi.sound(self, CHAN_AUTO, gi.soundindex("weapons/phitw2.wav"), 1, ATTN_NORM, 0);
+	}
+}
+//david villa end
