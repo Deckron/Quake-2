@@ -932,6 +932,7 @@ struct gclient_s
 	int			breather_sound;
 
 	int			machinegun_shots;	// for weapon raising
+	int			dmr_count;
 	
 
 	// animation vars
@@ -1057,8 +1058,10 @@ struct edict_s
 	int			max_health;
 	int			gib_health;
 	int			deadflag;
+	
 	qboolean	show_hostile;
 	qboolean    fire_mode;      // use:  0 for FA and 1 for BF david villa mod addition
+	
 
 	float		powerarmor_time;
 
@@ -1083,8 +1086,8 @@ struct edict_s
 
 	edict_t		*mynoise;		// can go in client only
 	edict_t		*mynoise2;
-	int ClassSpeed;//david villa mod
-	
+	int ClassSpeed;//david villa mod addition
+	//int			dmr_count;//david villa mod addition
 
 	int			noise_index;
 	int			noise_index2;

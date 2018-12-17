@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_player.h"
 
 
+
 static qboolean	is_quad;
 static byte		is_silenced;
 
@@ -958,22 +959,31 @@ void Machinegun_Fire (edict_t *ent)
 	vec3_t		start;
 	vec3_t		forward, right;
 	vec3_t		angles;
-	int			damage = 8;
+	int			damage = 50;
 	int			kick = 2;
 	vec3_t		offset;
 
-	if (!(ent->client->buttons & BUTTON_ATTACK))
+	if (!(ent->client->buttons & BUTTON_ATTACK) && ((ent->client->dmr_count > 0) ||(!ent->client->dmr_count)))//david villa mod addition added dmr count
 	{
 		ent->client->machinegun_shots = 0;
+		ent->client->dmr_count = 0;//added dmr count
 		ent->client->ps.gunframe++;
 		return;
 	}
-
+	if (ent->client->dmr_count < 1)//david villa mod change
+	{
+		if (ent->client->ps.gunframe == 5)
+			ent->client->ps.gunframe = 4;
+		else
+			ent->client->ps.gunframe = 5;
+	}
+	/*
 	if (ent->client->ps.gunframe == 5)
 		ent->client->ps.gunframe = 4;
 	else
 		ent->client->ps.gunframe = 5;
-
+	*/
+	
 	if (ent->client->pers.inventory[ent->client->ammo_index] < 1)
 	{
 		ent->client->ps.gunframe = 6;
@@ -982,9 +992,11 @@ void Machinegun_Fire (edict_t *ent)
 			gi.sound(ent, CHAN_VOICE, gi.soundindex("weapons/noammo.wav"), 1, ATTN_NORM, 0);
 			ent->pain_debounce_time = level.time + 1;
 		}
+		ent->client->dmr_count = 0;
 		NoAmmoWeaponChange (ent);
 		return;
 	}
+	
 
 	if (is_quad)
 	{
@@ -1006,13 +1018,29 @@ void Machinegun_Fire (edict_t *ent)
 		ent->client->machinegun_shots++;
 		if (ent->client->machinegun_shots > 9)
 			ent->client->machinegun_shots = 9;
+		if (ent->client->dmr_count > 0)
+			return;
 	}
 
 	// get start / end positions
 	VectorAdd (ent->client->v_angle, ent->client->kick_angles, angles);
 	AngleVectors (angles, forward, right, NULL);
 	VectorSet(offset, 0, 8, ent->viewheight-8);
-	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
+	P_ProjectSource(ent->client, ent->s.origin, offset, forward, right, start);
+	//david villa start
+	ent->client->dmr_count++;
+	if (ent->client->dmr_count < 2)
+	{
+		fire_bullet(ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD/2, DEFAULT_BULLET_VSPREAD/2, MOD_MACHINEGUN);
+
+		gi.WriteByte(svc_muzzleflash);
+		gi.WriteShort(ent - g_edicts);
+		gi.WriteByte(MZ_MACHINEGUN | is_silenced);
+		gi.multicast(ent->s.origin, MULTICAST_PVS);
+
+		PlayerNoise(ent, start, PNOISE_WEAPON);
+	}
+	/*
 	fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_MACHINEGUN);
 
 	gi.WriteByte (svc_muzzleflash);
@@ -1020,8 +1048,8 @@ void Machinegun_Fire (edict_t *ent)
 	gi.WriteByte (MZ_MACHINEGUN | is_silenced);
 	gi.multicast (ent->s.origin, MULTICAST_PVS);
 
-	PlayerNoise(ent, start, PNOISE_WEAPON);
-
+	PlayerNoise(ent, start, PNOISE_WEAPON);*/
+	//david villa end
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		ent->client->pers.inventory[ent->client->ammo_index]--;
 

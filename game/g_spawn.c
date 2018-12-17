@@ -649,16 +649,16 @@ char *single_statusbar =
 "yb	-24 "
 
 // health
-"xv	0 "
-"hnum "
-"xv	50 "
-"pic 0 "
+"xv	0 "//david villa change was 0
+"hnum  "//david villa change, was nothing before
+"xv	50 "//david villa change was 50
+"pic  0"//was 0
 
 // ammo
 "if 2 "
-"	xv	100 "
+"	xv	100 "//david villa changed from 100
 "	anum "
-"	xv	150 "
+"	xv	150 "//david villa change was 150
 "	pic 2 "
 "endif "
 

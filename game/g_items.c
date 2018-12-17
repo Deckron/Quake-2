@@ -225,7 +225,7 @@ qboolean Pickup_Spy(edict_t *ent, edict_t *self)
 		self->health = 40;
 		self->max_health = 40;
 		self->ClassSpeed = 4;
-		self->viewheight = 28;
+		self->viewheight = 20;
 		Cmd_Notarget_f(self);
 		/*
 		if (other->health < other->max_health)
@@ -263,9 +263,32 @@ qboolean Pickup_Soldier(edict_t *ent, edict_t *self)
 
 	if (!deathmatch->value)
 		self->health = 1000;
-		self->max_health = 500;
+		self->max_health = 1000;
 		self->ClassSpeed = 4;
 		self->viewheight = 11;
+
+
+	/*
+	if (other->health < other->max_health)
+	other->health = other->max_health;*/
+
+	if (!(ent->spawnflags & DROPPED_ITEM) && (deathmatch->value))
+		SetRespawn(ent, ent->item->quantity);
+
+	return true;
+
+}
+qboolean Pickup_Sniper(edict_t *ent, edict_t *self)
+{
+	//gitem_t		*item;
+
+
+
+	if (!deathmatch->value)
+		self->health = 45;
+	self->max_health = 45;
+	self->ClassSpeed = 2;
+	self->viewheight = 30;
 
 
 	/*
@@ -1169,7 +1192,7 @@ void SpawnItem (edict_t *ent, gitem_t *item)
 		}
 		if ( (int)dmflags->value & DF_NO_HEALTH )
 		{
-			if (item->pickup == Pickup_Health || item->pickup == Pickup_Scout || item->pickup == Pickup_AncientHead || item->pickup == Pickup_Heavy || item->pickup == Pickup_Spy|| item->pickup==Pickup_Soldier)//david villa add item pickup heavy, scout, spy
+			if (item->pickup == Pickup_Health || item->pickup == Pickup_Scout || item->pickup == Pickup_AncientHead || item->pickup == Pickup_Heavy || item->pickup == Pickup_Spy|| item->pickup==Pickup_Soldier || item->pickup==Pickup_Sniper)//david villa add item pickup heavy, scout, spy, soldier
 			{
 				G_FreeEdict (ent);
 				return;
@@ -1965,6 +1988,30 @@ gives +1 to maximum health
 		NULL,
 		/* icon */		"p_soldier",
 		/* pickup */	"soldier",
+		/* width */		2,
+		60,
+		NULL,
+		0,
+		0,
+		NULL,
+		0,
+		/* precache */ ""
+	},
+	/*QUAKED item_sniper(.3 .3 1) (-16 -16 -16) (16 16 16)
+	gives +1 to maximum health
+	*/
+
+	{
+		"item_sniper",
+		Pickup_Sniper,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		"models/items/adrenal/tris.md2", EF_ROTATE,
+		NULL,
+		/* icon */		"p_sniper",
+		/* pickup */	"sniper",
 		/* width */		2,
 		60,
 		NULL,
